@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <% include ./layout/head %>
+
+  <title> <% if(data && data.posts){ %> <%= data.posts.title %> <% } %> </title>
+
+</head>
+<body>
+
+<% include ./layout/nav %>
+
+  <!-- Page Header -->
+  <header class="masthead" style="background-image: url('/static/theme/img/post-bg.jpg')">
+    <div class="overlay"></div>
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-8 col-md-10 mx-auto">
+          <div class="post-heading">
+
+            <% if(data && data.posts){ %>
+
+              <h1>
+                  <%= data.posts.title %>
+              </h1>
+
+              <span class="meta">Posted by
+                <a href="#"><%= data.posts.author %></a>
+                on <%= data.posts.created_at %>
+              </span>
+
+            <% } %>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Post Content -->
+  <article>
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-8 col-md-10 mx-auto">
+          
+          <%- data.posts.content %>
+
+        </div>
+      </div>
+    </div>
+  </article>
+
+  <hr>
+
+  <!-- Footer -->
+  <% include ./layout/footer %>
+
+</body>
+
+</html>

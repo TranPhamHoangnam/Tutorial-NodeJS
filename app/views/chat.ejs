@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <title>Chat SocketIO</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+    <style>
+        *{
+            margin: 0;padding: 0;box-sizing: border-box;
+        }
+        body{
+            font-family: Arial, Helvetica, sans-serif;font-size: 13px;
+        }
+        .form-send{
+            background: #000;padding: 3px; position: fixed; bottom: 20px; left: 30px; width: 90%;
+        }
+        .form-send input{
+            border: 0; padding: 10px; width: 90%; margin-right: .5%;
+        }
+        .form-send button{
+            width: 9%; background: rgb(130, 224, 255); border: none; padding: 10px;
+        }
+        #message{
+            list-style-type: none; margin: 0; padding: 0;
+        }
+        #message li{
+            padding: 5px 10px;
+        }
+        #message li:nth-child(odd){background-color: #eee;}
+
+    </style>
+
+  </head>
+  <body>
+      
+    <div class="container">
+        <div class="row">
+            <ul class="conversation">
+
+            </ul>
+
+            <div class="form-send">
+
+                <input type="text" name="" id="message" />
+                <button class="btn btn-success" id="btnSend">Gửi</button>
+
+            </div>
+        </div>
+    </div>
+
+    <script src="/socket.io/socket.io.js"></script>
+
+    <script>
+        const socket = io('http://localhost:3000');
+
+        socket.on("connect", function(){
+
+            // Ask name
+            var username = prompt("What is your name?");
+
+            socket.emit("add-user", username);
+        })
+        
+        // lắng nghe server gửi về
+        socket.on("update-message", function(data){
+
+            $(".conversation").append(`<li> ${data.sender}: ${data.messege} </li>`)
+        
+        });    
+
+        // lắng nghe server message gửi về
+        socket.on("server-send-message", function(data){
+
+            $(".conversation").append(`<li> ${data.sender}: ${data.messege} </li>`)
+        
+        }); 
+
+
+        // bắt sự kiện gửi tin nhắn
+        $("#btnSend").click(function(){
+            var message = $("#message").val();  
+            
+            console.log(message);
+
+            if(message.trim().length != 0){
+
+                socket.emit("send-message", message);
+                
+            }       
+        });
+ 
+
+    </script>
+
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+  </body>
+</html>

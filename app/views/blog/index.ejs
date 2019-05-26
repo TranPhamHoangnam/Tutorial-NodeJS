@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <% include ./layout/head %>
+  <title>Tech Blog</title>
+
+</head>
+
+<body>
+
+  <!-- Navigation -->
+  <% include ./layout/nav %>
+
+
+  <!-- Page Header -->
+  <header class="masthead" style="background-image: url('/static/theme/img/home-bg.jpg')">
+    <div class="overlay"></div>
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-8 col-md-10 mx-auto">
+          <div class="site-heading">
+            <h1>Tech Blog</h1>
+            <span class="subheading">A Blog Theme by Start Bootstrap</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-md-10 mx-auto">
+
+        <% if(data && data.posts){ %>
+          <% data.posts.forEach((phantu) => { %>
+
+            <div class="post-preview">
+              <a href="/blog/post/<%= phantu._id %>">
+                <h2 class="post-title">
+                  <%= phantu.title %>
+                </h2>
+                <h3 class="post-subtitle">
+                  <%- phantu.content %>
+                </h3>
+              </a>
+              <p class="post-meta">Posted by
+                <a href="#"> <%= phantu.author %> </a>
+                on <%= phantu.created_at %>
+              </p>
+            </div>
+            <hr>
+
+          <%  }) %>
+        <% } %>
+
+        <!-- Pager -->
+        <div class="clearfix">
+          <a class="btn btn-primary float-right" href="#">Older Posts &rarr;</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <hr>
+
+
+  <!-- Footer -->
+  <% include ./layout/footer %>
+
+</body>
+
+</html>
