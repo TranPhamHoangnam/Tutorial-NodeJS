@@ -33,7 +33,11 @@ var controller = require(__dirname + '/app/controllers');
 app.use(controller);
 
 // cấu hình database
-mongoose.connect(`mongodb://${config.get("mongoDB.host")}:${config.get("mongoDB.port")}/${config.get("mongoDB.database")}`, {useNewUrlParser: true});
+mongoose.connect(`mongodb://${config.get("mongoDB.host")}:${config.get("mongoDB.port")}/${config.get("mongoDB.database")}`, {useNewUrlParser: true}).then(() => {
+    console.log(`Đã kết nối DB ${config.get("mongoDB.database")}`);
+}).catch((err) => {
+    console.log(`Không kết nối được tới DB`);
+});
 mongoose.set('useFindAndModify', false);
 
 // cấu hình config để gọi cái gì đó sử dụng mặc định
